@@ -61,6 +61,7 @@ use App\Http\Controllers\Admin\EmailTemplatesController;
 use App\Http\Controllers\Admin\HelpAndSupport\HelpTopicController;
 use App\Http\Controllers\Admin\InhouseProductSaleController;
 use App\Http\Controllers\Admin\Order\RefundController;
+use App\Http\Controllers\Admin\Stock\StockController;
 use App\Http\Controllers\Admin\ThirdParty\PaymentMethodController;
 use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\Http\Controllers\Admin\Payment\OfflinePaymentMethodController;
@@ -249,6 +250,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::post(Order::DIGITAL_FILE_UPLOAD_AFTER_SELL[URI], 'uploadDigitalFileAfterSell')->name('digital-file-upload-after-sell');
             Route::post(Order::UPDATE_STATUS[URI], 'updateStatus')->name('status');
             Route::get(Order::GET_DATA[URI], 'getOrderData')->name('get-order-data');
+        });
+    });
+
+    // STOCK MANAGEMNENT -
+    Route::group(['prefix' => 'stock', 'as' => 'stock.'], function () {
+        Route::controller(StockController::class)->group(function (){
+            Route::get('list', 'index')->name('list');
+            //Route::post(Attribute::STORE[URI], 'add')->name('store');
         });
     });
 

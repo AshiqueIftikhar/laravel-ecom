@@ -7558,4 +7558,5 @@
   'dashboard_fuck' => 'Dashboard fuck',
   'POSA' => 'POSA',
   'credentials does not match or your account has been suspended' => 'Credentials does not match or your account has been suspended',
+  'stock_list' => 'Stock list',
 );

@@ -446,13 +446,13 @@
 
                         </li>
                         <li class="navbar-vertical-aside-has-menu">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link">
+                            <a href="{{route('admin.stock.list')}}" class="js-navbar-vertical-aside-menu-link nav-link">
                                 Current Stock
                             </a>
                         </li>
                         <li class="navbar-vertical-aside-has-menu">
                             <a class="js-navbar-vertical-aside-menu-link nav-link" href="#">
-                                Current Stock
+                                Stock Transfer
                             </a>
                         </li>
                         {{--STOCK MANAGEMENT ENDS--}}
