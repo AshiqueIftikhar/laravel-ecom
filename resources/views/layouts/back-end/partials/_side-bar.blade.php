@@ -447,7 +447,7 @@
                         </li>
                         <li class="navbar-vertical-aside-has-menu">
                             <a href="{{route('admin.stock.list')}}" class="js-navbar-vertical-aside-menu-link nav-link">
-                                Current Stock
+                                Stock In
                             </a>
                         </li>
                         <li class="navbar-vertical-aside-has-menu">
