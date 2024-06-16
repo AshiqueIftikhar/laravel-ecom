@@ -4,7 +4,7 @@ let elementViewAllHoldOrdersSearch = $(".view_all_hold_orders_search");
 let getYesWord = $("#message-yes-word").data("text");
 let getNoWord = $("#message-no-word").data("text");
 let messageAreYouSure = $("#message-are-you-sure").data("text");
-
+''
 document.addEventListener("keydown", function (event) {
     if (event.altKey && event.code === "KeyO") {
         $("#submit_order").click();

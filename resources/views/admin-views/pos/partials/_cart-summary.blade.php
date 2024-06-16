@@ -34,7 +34,7 @@
             aria-expanded="false" id="cart_id_primary">
             {{ session('current_user') }}
         </button>
-        <div class="dropdown-menu px-2">
+        <div class="dropdown-menu px-2">g
             @foreach ($cartNames as $cartName)
                 <button class="dropdown-item border rounded mb-1 action-cart-change" data-cart="{{ $cartName }}">{{ $cartName }}</button>
             @endforeach

@@ -257,6 +257,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::group(['prefix' => 'stock', 'as' => 'stock.'], function () {
         Route::controller(StockController::class)->group(function (){
             Route::get('list', 'index')->name('list');
+            Route::get('stock-quick-view', 'getStockQuickView')->name('stock-quick-view');
+            Route::post('store', 'addStock')->name('store');
             //Route::post(Attribute::STORE[URI], 'add')->name('store');
         });
     });

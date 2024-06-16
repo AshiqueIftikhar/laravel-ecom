@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('stock_in', function (Blueprint $table) {
             $table->id();
             $table->string('ref_no');
+
             $table->unsignedBigInteger('vendor_id');
             $table->foreign('vendor_id')->references('id')->on('sellers');
+
             $table->unsignedBigInteger('warehouse_id');
             $table->foreign('warehouse_id')->references('id')->on('sellers');
+
             $table->unsignedBigInteger('added_by');
             $table->foreign('added_by')->references('id')->on('admins');
+
             $table->string('status');
             $table->integer('items');
             $table->timestamps();

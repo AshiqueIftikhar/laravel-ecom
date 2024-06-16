@@ -9,7 +9,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  *
  */
-interface ProductRepositoryInterface extends RepositoryInterface
+interface
+ProductRepositoryInterface extends RepositoryInterface
 {
 
     /**

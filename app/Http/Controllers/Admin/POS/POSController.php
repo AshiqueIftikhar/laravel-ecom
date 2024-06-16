@@ -82,6 +82,7 @@ class POSController extends BaseController
 
         $countries = getWebConfig(name: 'delivery_country_restriction') ? $this->get_delivery_country_array() : COUNTRIES;
         $zipCodes = getWebConfig(name: 'delivery_zip_code_area_restriction') ? $this->deliveryZipCodeRepo->getListWhere(dataLimit: 'all') : 0;
+
         return view(POS::INDEX[VIEW], compact(
             'categories',
             'categoryId',

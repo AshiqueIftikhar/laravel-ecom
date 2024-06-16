@@ -126,10 +126,8 @@ class OrderController extends BaseController
         if (isset($request['customer_id']) && $request['customer_id'] != 'all' && !is_null($request->customer_id) && $request->has('customer_id')) {
             $customer = $this->customerRepo->getFirstWhere(params: ['id' => $request['customer_id']]);
         }
-
         $vendorId = $request['seller_id'];
         $customerId = $request['customer_id'];
-
         return view(Order::LIST[VIEW], compact(
             'orders',
             'searchValue',
