@@ -498,7 +498,6 @@ function SaveStockData(){
             });
             $.post({
                 url: $("#data-stock").attr("action"),
-                // data: formData,
                 data: formData,
                 contentType: false,
                 processData: false,
