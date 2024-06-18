@@ -18,13 +18,13 @@
                 @endif
                 <span class="badge badge-soft-dark radius-50 fz-14 ml-1"></span>
             </h2>
-            @if($errors->any())
-                <ul class="alert alert-danger list-unstyled">
-                    @foreach($errors->all() as $error)
-                        <li>- {{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
+{{--            @if($errors->any())--}}
+{{--                <ul class="alert alert-danger list-unstyled">--}}
+{{--                    @foreach($errors->all() as $error)--}}
+{{--                        <li>- {{ $error }}</li>--}}
+{{--                    @endforeach--}}
+{{--                </ul>--}}
+{{--            @endif--}}
                             {{--            FORM--}}
             <form action="{{route('admin.stock.store')}}" method="POST" id='data-stock'>
                 @csrf
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <label for="variations">Date</label>
-                                    <input type="date" class="form-control" name="date-time" id="date-time" value="{{$currentDateTime->format('Y-m-d')}}">
+                                    <input type="date" class="form-control" name="date_time" id="date-time" value="{{$currentDateTime->format('Y-m-d')}}">
                                 </div>
                                 <div class="col-sm-3">
                                     <span class="style-one-pro cursor-pointer user-select-none text--primary action-onclick-generate-number" data-input="#generate_number">

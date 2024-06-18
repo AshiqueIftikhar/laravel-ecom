@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stock_in', function (Blueprint $table) {
+        Schema::create('stock_ins', function (Blueprint $table) {
             $table->id();
             $table->string('ref_no');
+            $table->date('date_time');
 
             $table->unsignedBigInteger('vendor_id');
-            $table->foreign('vendor_id')->references('id')->on('sellers');
 
             $table->unsignedBigInteger('warehouse_id');
-            $table->foreign('warehouse_id')->references('id')->on('sellers');
 
             $table->unsignedBigInteger('added_by');
-            $table->foreign('added_by')->references('id')->on('admins');
 
             $table->string('status');
             $table->integer('items');
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_in');
+        Schema::dropIfExists('stock_ins');
     }
 };

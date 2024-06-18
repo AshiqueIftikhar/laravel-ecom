@@ -7585,4 +7585,6 @@
   'Date-Time_not_provided' => 'Date-Time not provided',
   'Ref._no._not_provided' => 'Ref. no. not provided',
   'No_product_in_list' => 'No product in list',
+  'stock_management' => 'Stock management',
+  'stock_Transfer' => 'Stock Transfer',
 );

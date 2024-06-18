@@ -7,6 +7,9 @@ use App\Contracts\Repositories\ProductRepositoryInterface;
 use App\Contracts\Repositories\VendorRepositoryInterface;
 use App\Enums\ViewPaths\Admin\POS;
 use App\Http\Controllers\Controller;
+use App\Models\Stock_In;
+use App\Models\Stock_In_Details;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -20,7 +23,7 @@ class StockController extends Controller
     {
     }
 
-    public function index(?Request $request)
+    public function addNew(?Request $request)
     {
         $type = 'in_house';
         //$products = 0;
@@ -55,7 +58,7 @@ class StockController extends Controller
               "extraDiscount" => 0,
         ];
 
-        return view('admin-views.stock.list', compact('type', 'categories','sellers','products','searchValue','cartItems'));
+        return view('admin-views.stock.addnew', compact('type', 'categories','sellers','products','searchValue','cartItems'));
     }
     public function getStockQuickView(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -75,15 +78,42 @@ class StockController extends Controller
 
     public function addStock(Request $request){
 
-        $request->validate([
-            "seller_id"=>"required",
-            "warehouse_id"=>"required",
-            "date-time"=>"required",
-            'refNo'=>"required",
+            $validated =  $request->validate([
+                "seller_id"=>"required",
+                "warehouse_id"=>"required",
+                "date_time"=>"required",
+                "refNo"=>"required",
+                "items"=>"required",
         ]);
-            $requestData = $request->all();
-        return response()->json([
+        //Save StockIn
+            $fieldData = Stock_In::create([
+                'vendor_id'=>$validated['seller_id'],
+                'warehouse_id'=>$validated['warehouse_id'],
+                'date_time'=>$validated['date_time'],
+                'ref_no'=>$validated['refNo'],
+            ]);
+
+//        Save StockInDetails
+//        $items=[];
+//        foreach($validated['items'] as $item ){
+//           array_push($items, $item['productCode']);
+//        }
+
+            foreach($validated['items'] as $item ){
+                Stock_In_Details::create([
+                    'stock_in_id'=>$fieldData->id,
+                    'product_id'=>$item['productCode'],
+                    'variant'=>$item['productVariation'],
+                    'sku'=>$item['productCode'],
+                    'unit_price'=>$item['productUnitPrice'],
+                    'qty'=>$item['productQty'],
+                ]);
+            }
+        $requestData = $request->all();
+            return response()->json([
             'data'=>$requestData,
         ]);
+
+        Toastr::success(translate('Stock_added_successfully'));
     }
 }

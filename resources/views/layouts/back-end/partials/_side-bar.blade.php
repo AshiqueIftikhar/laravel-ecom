@@ -440,21 +440,38 @@
                         @endif
 
                         {{--STOCK MANAGEMENT--}}
-
                         <li class="nav-item">
-                            <small class="nav-subtitle" title="">Stock Management</small>
+                            <small class="nav-subtitle" title="">
+                               {{translate('stock_management')}}
+                            </small>
+                            <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                        </li>
+                        <li class="navbar-vertical-aside-has-menu">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate" title="">{{translate('stock_In')}}</span>
+                            </a>
+                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:">List</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('admin.stock.add-new')}}">Add New</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate" title="">{{translate('stock_Transfer')}}</span>
+                            </a>
+                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:"></a>
+                                </li>
+                            </ul>
+                        </li>
 
-                        </li>
-                        <li class="navbar-vertical-aside-has-menu">
-                            <a href="{{route('admin.stock.list')}}" class="js-navbar-vertical-aside-menu-link nav-link">
-                                Stock In
-                            </a>
-                        </li>
-                        <li class="navbar-vertical-aside-has-menu">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link" href="#">
-                                Stock Transfer
-                            </a>
-                        </li>
+                    {{--                                    class="js-navbar-vertical-aside-menu-link nav-link"--}}
+                    {{--                                    href="{{route('admin.stock.list')}}" > Stock In>--}}
                         {{--STOCK MANAGEMENT ENDS--}}
 
                         @if(Helpers::module_permission_check('promotion_management'))
