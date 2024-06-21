@@ -325,4 +325,10 @@ class Product extends Model
             }]);
         });
     }
+
+    //stock_in_details
+    public function stockInDetails(): HasMany
+    {
+        return $this->hasMany(Stock_In_Details::class);
+    }
 }

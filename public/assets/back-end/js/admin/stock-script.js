@@ -368,6 +368,7 @@ function posUpdateQuantityFunctionality() {
     //     }
     // });
 let itemIndex = 0;
+let grandTotal = 0;
 function addToCart(form_id = "add-to-cart-form") {
 
     let product=[];
@@ -380,13 +381,15 @@ function addToCart(form_id = "add-to-cart-form") {
 
     product['productQty'] = $('.cart-qty-field').val().trim();
     product['productUnitPrice'] = $('.discounted_unit_price').text().replace('৳','').trim();
+    let productTotal = parseFloat((product['productQty']*product['productUnitPrice']).toString());
+    product['productSubTotal'] = productTotal.toFixed(2);
 
     let duplicate = false;
     product['productName']= product['productName'].length > 40 ? product['productName'].slice(0,40)+"..." : product['productName']
     debugger;
     $('#dataTable tbody tr').each(function(){
-        console.log('lksdfjlskdjflk');
-        console.log($(this).find('td:first input').text().toLowerCase());
+        // console.log('lksdfjlskdjflk');
+        // console.log($(this).find('td:first input').text().toLowerCase());
 
         // if($(this).find('td:first input').text().toLowerCase() === product['productCode'].toLowerCase()
         //     && $(this).find('td:nth-child(3) input').text().toLowerCase() === product['productVariation'].toLowerCase()
@@ -412,15 +415,17 @@ function addToCart(form_id = "add-to-cart-form") {
 
         const itemHTML = `
             <tr>
-            <td><input type="text" name="items[${itemIndex}][productCode]" value="${product['productCode']}" readonly style="border: none" /></td>
-            <td><input type="text" name="items[${itemIndex}][productName]" value="${product['productName']}" readonly style="border: none" /></td>
-            <td><input type="text" name="items[${itemIndex}][productVariation]" value="${product['productVariation']}" readonly style="border: none" /></td>
-            <td><input type="text" name="items[${itemIndex}][productQty]" value="${product['productQty']}" readonly style="border: none" /></td>
-            <td><input type="text" name="items[${itemIndex}][productUnitPrice]" value="${product['productUnitPrice']}" readonly style="border: none" /></td>
+            <td><input type="text" data-toggle="tooltip" data-placement="top" title="${product['productCode']}" name="items[${itemIndex}][productCode]" value="${product['productCode']}" readonly style="border: none; background: transparent"/></td>
+            <td><input type="text" title="${product['productName']}" name="items[${itemIndex}][productName]" value="${product['productName']}" readonly style="border: none; background: transparent" /></td>
+            <td><input type="text" title="${product['productVariation']}" name="items[${itemIndex}][productVariation]" value="${product['productVariation']}" readonly style="border: none; background: transparent" /></td>
+            <td><input type="text" name="items[${itemIndex}][productQty]" value="${product['productQty']}" readonly style="border: none; background: transparent" /></td>
+            <td><input type="text" name="items[${itemIndex}][productUnitPrice]" value="${product['productUnitPrice']}" readonly style="border: none; background: transparent" /></td>
+            <td><input type="text" name="items[${itemIndex}][productSubTotal]" value="${product['productSubTotal']}" readonly style="border: none; background: transparent" /></td>
             <td><button class="btn btn-danger btn-sm delete-btn">Remove</button></td>
             </tr>
         `
         $('#dataTable tbody').append(itemHTML);
+        $('#grandTotal').val((grandTotal += parseFloat(product['productSubTotal'])).toFixed(2));
         itemIndex++;
 
         $(".search-result-box").empty().hide();
@@ -503,6 +508,8 @@ function SaveStockData(){
                 processData: false,
                 beforeSend: function () {
                     $("#loading").fadeIn();
+                    // $('#submit-stock').prop('disabled', true);
+                    $('#submit-stock').attr('disabled','disabled');
                 },
                 success: function (response) {
                     if (true){
@@ -515,6 +522,8 @@ function SaveStockData(){
                 },
                 complete: function () {
                     $("#loading").fadeOut();
+                    //$('#submit-stock').removeAttr('disabled');
+                    window.location.href= $("#route-admin-stock-list").data("url");
                 },
             });
         }
@@ -570,6 +579,7 @@ function ValidateStockInput(){
         SaveStockData();
     }
 }
+
 // function ExtractTableData(){
 //     let tableData = [];
 //     $('#data-table tbody tr').each(function () {

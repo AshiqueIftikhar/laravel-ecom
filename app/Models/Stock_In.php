@@ -11,12 +11,12 @@ class Stock_In extends Model
     use HasFactory;
 
     protected $table = 'stock_ins';
-    protected $fillable = ['ref_no', 'vendor_id','warehouse_id','added_by', 'status','items'];
+    protected $fillable = ['ref_no','date_time', 'vendor_id','warehouse_id', 'status', 'grand_total', 'notes','added_by'];
 
-    public function Stock_In_Details():HasMany{
+    public function stockInDetails():HasMany{
         return $this->hasMany(Stock_In_Details::class);
     }
-    public function seller(){
-        return $this->belongsTo(Seller::class,);
+    public function shop(){
+        return $this->belongsTo(shop::class,'vendor_id');
     }
 }

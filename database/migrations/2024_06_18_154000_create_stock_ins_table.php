@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('stock_ins', function (Blueprint $table) {
             $table->id();
-            $table->string('ref_no');
-            $table->date('date_time');
+            $table->string('ref_no')->unique();
+            $table->dateTime('date_time');
 
             $table->unsignedBigInteger('vendor_id');
 

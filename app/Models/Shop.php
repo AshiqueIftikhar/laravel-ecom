@@ -81,4 +81,8 @@ class Shop extends Model
             $query->where(['status' => 'approved']);
         });
     }
+
+    public function stock_ins():HasMany{
+        return $this->hasMany(Stock_In::class,'vendor_id');
+    }
 }

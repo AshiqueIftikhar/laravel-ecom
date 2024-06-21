@@ -239,7 +239,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row align-items-end">
-                        <div class="col-md-6 col-lg-4 col-xl-3 d-none">
+                        <div class="col-md-6 col-lg-4 col-xl-3 ">
                             <div class="form-group">
                                 <div class="d-flex gap-2 mb-2">
                                     <label class="title-color mb-0">{{ translate('purchase_price') }}

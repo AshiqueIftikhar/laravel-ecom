@@ -446,21 +446,31 @@
                             </small>
                             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                         </li>
-                        <li class="navbar-vertical-aside-has-menu">
+                        <li class="navbar-vertical-aside-has-menu {{Request::is('admin/stock*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
-                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate" title="">{{translate('stock_In')}}</span>
+                                <i class="tio-arrow-large-forward nav-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate" title="">
+                                    {{translate('stock_In')}}
+                                </span>
                             </a>
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:">List</a>
+                                <li class="nav-item {{Request::is('admin/stock/list*')?'active':''}}">
+                                    <a class="nav-link" href="{{route('admin.stock.list')}}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">{{translate('list')}}</span>
+                                    </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('admin.stock.add-new')}}">Add New</a>
+                                <li class="nav-item {{Request::is('admin/stock/add-new*')?'active':''}}">
+                                    <a class="nav-link" href="{{route('admin.stock.add-new')}}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">{{translate('add_New')}}</span>
+                                    </a>
                                 </li>
                             </ul>
                         </li>
                         <li>
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
+                                <i class="tio-arrow-doublesided-horizontal nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate" title="">{{translate('stock_Transfer')}}</span>
                             </a>
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
@@ -470,8 +480,6 @@
                             </ul>
                         </li>
 
-                    {{--                                    class="js-navbar-vertical-aside-menu-link nav-link"--}}
-                    {{--                                    href="{{route('admin.stock.list')}}" > Stock In>--}}
                         {{--STOCK MANAGEMENT ENDS--}}
 
                         @if(Helpers::module_permission_check('promotion_management'))

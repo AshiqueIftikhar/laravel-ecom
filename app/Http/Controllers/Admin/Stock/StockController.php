@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Stock_In;
 use App\Models\Stock_In_Details;
 use Brian2694\Toastr\Facades\Toastr;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -23,6 +25,12 @@ class StockController extends Controller
     {
     }
 
+    public function index(?Request $request){
+
+        $stocks = Stock_In::with('shop')->orderBy('id','desc')->get();
+//      dd($stocks);
+        return view('admin-views.stock.list',compact('stocks'));
+    }
     public function addNew(?Request $request)
     {
         $type = 'in_house';
@@ -58,7 +66,7 @@ class StockController extends Controller
               "extraDiscount" => 0,
         ];
 
-        return view('admin-views.stock.addnew', compact('type', 'categories','sellers','products','searchValue','cartItems'));
+        return view('admin-views.stock.add-new', compact('type', 'categories','sellers','products','searchValue','cartItems'));
     }
     public function getStockQuickView(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -75,8 +83,7 @@ class StockController extends Controller
             'view' => view("admin-views.stock.partials._stock-quick-view", compact('product'))->render(),
         ]);
     }
-
-    public function addStock(Request $request){
+    public function addStock(Request $request):RedirectResponse{
 
             $validated =  $request->validate([
                 "seller_id"=>"required",
@@ -91,6 +98,7 @@ class StockController extends Controller
                 'warehouse_id'=>$validated['warehouse_id'],
                 'date_time'=>$validated['date_time'],
                 'ref_no'=>$validated['refNo'],
+                'status'=>'pending',
             ]);
 
 //        Save StockInDetails
@@ -109,11 +117,16 @@ class StockController extends Controller
                     'qty'=>$item['productQty'],
                 ]);
             }
-        $requestData = $request->all();
-            return response()->json([
-            'data'=>$requestData,
-        ]);
+//        return redirect()->action([StockController::class, 'index']);
+//        $requestData = $request->all();
+//            return response()->json([
+//            'data'=>$requestData,
+//        ]);
+            Toastr::success(translate('Stock_added_successfully'));
+            return redirect()->route('admin.stock.list');
 
-        Toastr::success(translate('Stock_added_successfully'));
     }
+
+
+
 }

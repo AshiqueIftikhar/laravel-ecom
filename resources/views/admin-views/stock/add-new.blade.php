@@ -1,5 +1,5 @@
 @extends('layouts.back-end.app')
-@section('title', translate('stock_list'))
+@section('title', translate('stock_in_|_add_new'))
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 @endpush
@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="col-sm-6 col-lg-4 col-xl-2">
                                     <div class="form-group">
-                                        <label class="title-color" for="store">{{translate('Vendor')}}</label>
+                                        <label class="title-color" for="store">{{translate('Supplier')}}</label>
                                         <select name="seller_id" id="seller_id" class="form-control">
                                             <option value="0">{{translate('none')}}</option>
                                               @foreach ($sellers as $seller)
@@ -102,6 +102,24 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-12 mb-2 mt-1">
+                    <div class="card">
+                        <div class="d-flex justify-content-between gap-4">
+                            <div class="d-flex gap-2 justify-content-start w-50 align-items-center">
+                                <label for="status" class="pl-5 mt-2 font-weight-bold">Status</label>
+                                <select name="status" id="status" class="form-control w-50 my-2">
+                                    <option value="ordered">Ordered</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="received">Received</option>
+                                </select>
+                            </div>
+                            <div class="d-flex gap-2 justify-content-end w-50 align-items-center">
+                                <label for="grandTotal" class="mt-2 font-weight-bold">Grand Total</label>
+                                <input type="text" id="grandTotal" name="grand_total" readonly class="form-control w-50 outline-0 border-0">
+                            </div>
+                        </div>
+                    </div>
                     <div class="row justify-content-end gap-3 mt-3 mx-1">
                         <button id="submit-stock" type="button" class="btn btn--primary px-5 m-0 action-form-submit" data-message="{{translate('want_to_store_the_items').'?'}}" data-toggle="modal" data-target="#stockModal">{{ translate('submit') }}</button>
                     </div>
@@ -131,6 +149,7 @@
     <span id="route-admin-products-search-product" data-url="{{ route('admin.pos.search-product') }}"></span>
     <span id="route-admin-pos-stock-quick-view" data-url="{{ route('admin.stock.stock-quick-view') }}"></span>
     <span id="route-admin-pos-get-variant-price" data-url="{{ route('admin.pos.get-variant-price') }}"></span>
+    <span id="route-admin-stock-list" data-url="{{ route('admin.stock.list')}}"></span>
 
     <span id="message-stock-in-seller-id" data-text="{{ translate('No_vendor_selected') }}"></span>
     <span id="message-stock-in-warehouse" data-text="{{ translate('No_warehouse_selected') }}"></span>
@@ -140,5 +159,10 @@
 
 @endsection
 @push('script_2')
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/admin/stock-script.js') }}"></script>
 @endpush
