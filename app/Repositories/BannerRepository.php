@@ -55,6 +55,31 @@ class BannerRepository implements BannerRepositoryInterface
         return $dataLimit == 'all' ? $query->get() : $query->paginate($dataLimit)->appends($filters);
     }
 
+//    public function getListWhereIn(array $orderBy = [], string $searchValue = null, array $filters = [], array $whereInFilters = [], array $relations = [], array $nullFields = [], int|string $dataLimit = DEFAULT_DATA_LIMIT, int $offset = null): Collection|LengthAwarePaginator
+//    {
+//        $query = $this->banner
+//            ->with($relations)
+//            ->when($searchValue, function ($query) use($searchValue){
+//                return $query->orWhere('banner_type', 'like', "%$searchValue%");
+//            })
+//            ->when(!empty($whereInFilters), function ($query) use ($whereInFilters) {
+//                foreach ($whereInFilters as $key => $filterIndex){
+//                    $query->whereIn($key , $filterIndex);
+//                }
+//            })
+//            ->when(!empty($nullFields), function ($query) use ($nullFields) {
+//                return $query->whereNull($nullFields);
+//            })
+//            ->when(!empty($orderBy), function ($query) use ($orderBy) {
+//                return $query->orderBy(array_key_first($orderBy),array_values($orderBy)[0]);
+//            })->when($filters['theme'], function ($query) use($filters){
+//                return $query->where('theme', $filters['theme']);
+//            });
+//
+//        $filters += ['searchValue' =>$searchValue];
+//        return $dataLimit == 'all' ? $query->get() : $query->paginate($dataLimit)->appends($filters);
+//    }
+
     public function getListWhereIn(array $orderBy = [], string $searchValue = null, array $filters = [], array $whereInFilters = [], array $relations = [], array $nullFields = [], int|string $dataLimit = DEFAULT_DATA_LIMIT, int $offset = null): Collection|LengthAwarePaginator
     {
         $query = $this->banner
@@ -72,14 +97,11 @@ class BannerRepository implements BannerRepositoryInterface
             })
             ->when(!empty($orderBy), function ($query) use ($orderBy) {
                 return $query->orderBy(array_key_first($orderBy),array_values($orderBy)[0]);
-            })->when($filters['theme'], function ($query) use($filters){
-                return $query->where('theme', $filters['theme']);
             });
 
         $filters += ['searchValue' =>$searchValue];
         return $dataLimit == 'all' ? $query->get() : $query->paginate($dataLimit)->appends($filters);
     }
-
 
     public function update(string $id, array $data): bool
     {

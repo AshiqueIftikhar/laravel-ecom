@@ -544,6 +544,19 @@
                                     </div>
                                 </div>
                             @endif
+                            @if(theme_root_path() == 'theme_prottyashi')
+                                <div class="form-group">
+                                    <input type="color" name="primary_light"
+                                           value="{{ $businessSetting['primary_color_light'] ?? '#CFDFFB' }}"
+                                           class="form-control form-control_color">
+                                    <div class="text-center">
+                                        <div
+                                            class="title-color mb-4 mt-3">{{ $businessSetting['primary_color_light'] ?? '#CFDFFB' }}</div>
+                                        <label
+                                            class="title-color text-capitalize">{{translate('primary_Light_Color')}}</label>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,8 @@
 @php use App\Utils\Helpers;use App\Utils\ProductManager;use Illuminate\Support\Str; @endphp
 @php($overallRating = $product->reviews ? getOverallRating($product->reviews) : 0)
-<div class="product border rounded text-center d-flex flex-column gap-10"
+<div class="product text-center d-flex flex-column gap-10"
      onclick="location.href='{{route('product',$product->slug)}}'">
-    <div class="product__top width--100 height-12-5-rem aspect-1">
+    <div class="product__top width--100 aspect-prottyashi">
         @if($product->discount > 0)
             <span class="product__discount-badge">
                 -@if ($product->discount_type == 'percent')
@@ -59,9 +59,19 @@
             </div>
         @endif
     </div>
-    <div class="product__summary d-flex flex-column align-items-center gap-1 pb-3  cursor-pointer">
+    <div class="product__summary d-flex flex-column align-items-center gap-3 pb-3  cursor-pointer">
+        <div class="color-spanish-gray fs-10 w-100 d-flex justify-content-start" style="margin-top: -5px">
+            @if($product->added_by=='seller')
+                {{ isset($product->seller->shop->name) ? Str::limit($product->seller->shop->name, 20) : '' }}
+            @elseif($product->added_by=='admin')
+                {{$web_config['name']->value}}
+            @endif
+        </div>
+        <h6 class="product__title text-truncate">
+            {{ Str::limit($product['name'], 35) }}
+        </h6>
         <div class="d-flex gap-2 align-items-center">
-            <div class="star-rating text-gold fs-12">
+            <div class="star-rating text-primary fs-16">
                 @for ($index = 1; $index <= 5; $index++)
                     @if ($index <= (int)$overallRating[0])
                         <i class="bi bi-star-fill"></i>
@@ -74,18 +84,6 @@
             </div>
             <span>( {{$product->reviews->count()}} )</span>
         </div>
-
-        <div class="text-muted fs-12">
-            @if($product->added_by=='seller')
-                {{ isset($product->seller->shop->name) ? Str::limit($product->seller->shop->name, 20) : '' }}
-            @elseif($product->added_by=='admin')
-                {{$web_config['name']->value}}
-            @endif
-        </div>
-
-        <h6 class="product__title text-truncate">
-            {{ Str::limit($product['name'], 25) }}
-        </h6>
 
         <div class="product__price d-flex flex-wrap column-gap-2">
             @if($product->discount > 0)

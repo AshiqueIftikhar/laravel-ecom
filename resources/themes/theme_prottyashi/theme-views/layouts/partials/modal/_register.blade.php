@@ -4,7 +4,7 @@
      aria-hidden="true"
 >
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content box-radius">
             <div class="modal-header border-0 pb-0">
                 <button
                     type="button"

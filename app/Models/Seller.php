@@ -31,6 +31,7 @@ use Illuminate\Support\Carbon;
  * @property string $free_delivery_status
  * @property float $free_delivery_over_amount
  * @property string $app_language
+ * @property bool $isSellingPoint
  */
 class Seller extends Authenticatable
 {
@@ -58,6 +59,7 @@ class Seller extends Authenticatable
         'minimum_order_amount',
         'free_delivery_status',
         'app_language',
+        'isSellingPoint',
     ];
 
     protected $casts = [

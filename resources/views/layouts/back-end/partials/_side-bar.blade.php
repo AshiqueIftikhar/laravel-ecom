@@ -865,7 +865,51 @@
                                     </li>
                                 </ul>
                             </li>
-
+                            {{--SELLING POINTS - STARTS--}}
+                            <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/selling-points*') || Request::is('admin/selling-points/withdraw-method/*') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:" title="{{translate('selling_Points')}}">
+                                    <i class="tio-shopping-basket nav-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{translate('selling_Points')}}</span>
+                                </a>
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
+                                    style="display: {{Request::is('admin/selling-points*')?'block':'none'}}">
+                                    <li class="nav-item {{Request::is('admin/selling-points/add')?'active':''}}">
+                                        <a class="nav-link" title="{{translate('add_New_Selling_Points')}}"
+                                           href="{{route('admin.selling-points.add')}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">
+                                        {{translate('add_New_Selling_Points')}}
+                                    </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{Request::is('admin/selling-points/list') ||Request::is('admin/selling-points/view*') ?'active':''}}">
+                                        <a class="nav-link" title="{{translate('selling_Points_List')}}"
+                                           href="{{route('admin.selling-points.points-list')}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">
+                                        {{translate('selling_Points_List')}}
+                                    </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{Request::is('admin/vendors/'.Vendor::WITHDRAW_LIST[URI])|| Request::is('admin/vendors/'.Vendor::WITHDRAW_VIEW[URI].'/*') ?'active':''}}">
+                                        <a class="nav-link " href="{{route('admin.vendors.withdraw_list')}}"
+                                           title="{{translate('withdraws')}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{translate('withdraws')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{(Request::is('admin/vendors/withdraw-method/*'))?'active':''}}">
+                                        <a class="nav-link " href="{{route('admin.vendors.withdraw-method.list')}}"
+                                           title="{{translate('withdrawal_Methods')}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{translate('withdrawal_Methods')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {{--SELLING POINTS - ENDS--}}
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/delivery-man*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle text-capitalize"
                                    href="javascript:" title="{{translate('delivery_men')}}">

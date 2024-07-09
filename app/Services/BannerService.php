@@ -51,6 +51,16 @@ class BannerService
                 "Sidebar Banner" => translate('sidebar_Banner'),
                 "Top Side Banner" => translate('top_Side_Banner'),
             ];
+        }elseif (theme_root_path() == 'theme_prottyashi') {
+            $bannerTypes = [
+                "Main Banner" => translate('main_Banner'),
+                "Popup Banner" => translate('popup_Banner'),
+                "Footer Banner" => translate('footer_Banner'),
+                "Main Section Banner" => translate('main_Section_Banner'),
+                "Header Banner" => translate('header_Banner'),
+                "Sidebar Banner" => translate('sidebar_Banner'),
+                "Top Side Banner" => translate('top_Side_Banner'),
+            ];
         }elseif (theme_root_path() == 'theme_fashion') {
             $bannerTypes = [
                 "Main Banner" => translate('main_Banner'),

@@ -1,9 +1,9 @@
 /*
 	*******************
-	Template name:  6valley theme_aster
+	Template name:  Moulik theme_prottyashi
 	Version:        1.0
-	Author:         6amtech
-	Author url:     https://6amtech.com/
+	Author:         Moulik Solutions
+	Author url:     https://moulik.com.bd/
 
 	NOTE:
 	-----
@@ -64,16 +64,18 @@
     --absolute-white: #fff;
     --absolute-white-rgb: 255, 255, 255;
     --shadow-color: rgba(0, 0, 0, 0.05);
-    --bs-body-bg-rgb: 248, 248, 250;
-    --bs-body-bg: #f8f8fa;
+    /*--bs-body-bg-rgb: 248, 248, 250;*/
+    --bs-body-bg-rgb: 255, 255, 255;
+    /*--bs-body-bg: #f8f8fa;  !*body color*!*/
+    --bs-body-bg: #ffffff;
     --bs-border-rgb: 221, 221, 221;
     --bs-border-color: #f4f4f4;
     --bs-dark-rgb: var(--title-color-rgb);
     --bs-dark: var(--title-color);
     --bg-badge: #ddd;
     --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --bs-body-font-family: "Mulish", sans-serif;
-    --title-font: "Mulish", sans-serif;
+    --bs-body-font-family: "Helvetica", sans-serif;
+    --title-font: "Helvetica", sans-serif;
     --thin: 100;
     --extra-light: 200;
     --light: 300;
@@ -127,9 +129,11 @@ html {
 }
 
 body {
+    background-color: var(--bs-body-bg);
     --bs-body-text-align: start;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden !important;
+
 }
 
 [tabindex="-1"]:focus {

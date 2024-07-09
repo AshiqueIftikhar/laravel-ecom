@@ -204,7 +204,7 @@
                     @endif
 
                 </div>
-
+                <input type="hidden" name="is_selling_point" value="0">
                 <div class="d-flex align-items-center justify-content-end gap-10">
                     <input type="hidden" name="from_submit" value="admin">
                     <button type="reset" class="btn btn-secondary reset-button">{{translate('reset')}} </button>

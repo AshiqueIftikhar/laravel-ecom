@@ -81,7 +81,7 @@ if (!function_exists('getPriceRangeWithDiscount')) {
 
         if ($product->discount > 0) {
             $productDiscountedPrice = webCurrencyConverter(amount: $productUnitPrice - getProductDiscount(product: $product, price: $productUnitPrice));
-            return '<span class="discounted_unit_price fs-24 font-bold">' . $productDiscountedPrice . '</span>' . '<del class="total_unit_price align-middle text-muted fs-18 font-semibold">' . webCurrencyConverter(amount: $productUnitPrice) . '</del>';
+            return '<span class="discounted_unit_price fs-24 font-bold">' . $productDiscountedPrice . '</span>' . '<del class="total_unit_price align-middle color-spanish-gray fs-14 font-semibold opacity-50">' . webCurrencyConverter(amount: $productUnitPrice) . '</del>';
         } else {
             return '<span class="discounted_unit_price fs-24 font-bold">' . webCurrencyConverter(amount: $productUnitPrice) . '</span>';
         }

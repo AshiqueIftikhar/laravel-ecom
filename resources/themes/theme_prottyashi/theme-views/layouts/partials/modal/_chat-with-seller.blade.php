@@ -1,8 +1,8 @@
 <div class="modal fade" id="contact_sellerModal" tabindex="-1" aria-labelledby="contact_sellerModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header px-sm-5 pb-1">
+        <div class="modal-content" style="border-radius:0">
+            <div class="modal-header px-sm-5 pb-1" style="border-bottom:none">
                 <h5 class="text-capitalize" id="contact_sellerModalLabel">
                     @if(isset($shop) && isset($user_type) && $user_type == 'admin')
                         {{ translate('contact_with') }} {{ getWebConfig(name: 'company_name') }}
@@ -29,16 +29,16 @@
                               placeholder="{{ translate('type_your_message') }}"></textarea>
                     <div class="d-flex justify-content-between mt-3">
                         <div class="d-flex">
-                            <button class="btn btn-primary me-2">
+                            <button class="btn btn-primary me-2 text-uppercase">
                                 {{ translate('send') }}
                             </button>
-                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">
-                                {{ translate('close') }}
-                            </button>
+{{--                            <button type="button" class="btn btn-primary me-2" data-bs-dismiss="modal">--}}
+{{--                                {{ translate('close') }}--}}
+{{--                            </button>--}}
                         </div>
                         <div>
                             <a href="{{route('chat', ['type' => 'vendor'])}}"
-                               class="btn btn-primary me-2 text-capitalize">{{ translate('go_to_chatbox') }}</a>
+                               class="btn btn-primary me-2 text-uppercase">{{ translate('go_to_chatbox') }}</a>
                         </div>
                     </div>
                 </form>

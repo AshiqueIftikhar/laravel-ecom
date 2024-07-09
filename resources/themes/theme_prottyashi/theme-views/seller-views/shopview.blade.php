@@ -42,7 +42,7 @@
                              src="{{ getValidImage(path: 'storage/app/public/shop/'.($banner ?? ""), type: 'shop-banner') }}">
                     </div>
                 @endif
-                <div class="bg-primary-light p-3">
+                <div class="p-3">
                     <div class="d-flex gap-4 flex-wrap">
                         @if($shop['id'] != 0)
                             <div class="media gap-3">
@@ -65,7 +65,7 @@
                                 <div class="media-body d-flex flex-column gap-2">
                                     <h4>{{ $shop->name}}</h4>
                                     <div class="d-flex gap-2 align-items-center">
-                                        <span class="star-rating text-gold fs-12">
+                                        <span class="star-rating text-primary fs-16">
                                             @for ($index = 1; $index <= 5; $index++)
                                                 @if ($index <= $avg_rating)
                                                     <i class="bi bi-star-fill"></i>
@@ -76,7 +76,7 @@
                                                 @endif
                                             @endfor
                                         </span>
-                                        <span class="text-muted fw-semibold">({{round($avg_rating,1)}})</span>
+                                        <span class="text-primary fw-thin">({{round($avg_rating,1)}})</span>
                                     </div>
                                     <ul class="list-unstyled list-inline-dot fs-12">
                                         <li>{{ $total_review}} {{translate('Reviews')}} </li>
@@ -111,7 +111,7 @@
                                 <div class="media-body d-flex flex-column gap-2">
                                     <h4>{{ $web_config['name']->value }}</h4>
                                     <div class="d-flex gap-2 align-items-center">
-                                        <span class="star-rating text-gold fs-12">
+                                        <span class="star-rating text-primary fs-16">
                                             @for ($index = 1; $index <= 5; $index++)
                                                 @if ($index <= $avg_rating)
                                                     <i class="bi bi-star-fill"></i>
@@ -122,7 +122,7 @@
                                                 @endif
                                             @endfor
                                         </span>
-                                        <span class="text-muted fw-semibold">({{round($avg_rating,1)}})</span>
+                                        <span class="text-muted fw-thin">({{round($avg_rating,1)}})</span>
                                     </div>
                                     <ul class="list-unstyled list-inline-dot fs-12 mb-1">
                                         <li>{{ $total_review}} {{translate('reviews')}} </li>
@@ -195,7 +195,7 @@
             @endif
         </div>
         @if (count($featured_products) > 0)
-            <section class="bg-primary-light">
+            <section >
                 <div class="container">
                     <div class="">
                         <div class="py-4">
@@ -237,7 +237,7 @@
                                 <div class="d-flex gap-3 align-items-center">
                                     <h3 class="mb-1 text-capitalize">{{translate('search_product')}}</h3>
                                     <a href="javascript:"
-                                       class="text-primary text-decoration-underline fw-semibold">{{$products->count()}} {{translate('item')}}</a>
+                                       class="text-primary text-decoration-underline fw-thin">{{$products->count()}} {{translate('item')}}</a>
                                 </div>
                             </div>
                             <div class="">
@@ -264,7 +264,8 @@
                                             </div>
                                             <div class="dropdown product-view-sort-by">
                                                 <button type="button"
-                                                        class="border-0 bg-transparent dropdown-toggle text-dark p-0 custom-pe-3"
+{{--                                                        class="border-0 bg-transparent dropdown-toggle text-dark p-0 custom-pe-3"--}}
+                                                        class="border-0 bg-transparent dropdown-toggle text-primary p-0 custom-pe-3"
                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                     {{translate('default')}}
                                                 </button>
@@ -310,7 +311,7 @@
 
                                             <div class="dropdown">
                                                 <button type="button"
-                                                        class="border-0 bg-transparent dropdown-toggle p-0 custom-pe-3"
+                                                        class="border-0 bg-transparent dropdown-toggle p-0 custom-pe-3 text-primary"
                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                     {{$data['data_from']=="best-selling"||$data['data_from']=="top-rated"||$data['data_from']=="featured_deal"||$data['data_from']=="latest"||$data['data_from']=="most-favorite"?
                                                     str_replace(['-', '_', '/'], ' ', translate($data['data_from'])):translate('Choose_Option')}}
@@ -359,7 +360,7 @@
                 </div>
 
                 <div class="flexible-grid lg-down-1 gap-3 width--16rem">
-                    <div class="card filter-toggle-aside">
+                    <div class="filter-toggle-aside">
                         <div class="d-flex d-lg-none pb-0 p-3 justify-content-end">
                             <button class="filter-aside-close border-0 bg-transparent">
                                 <i class="bi bi-x-lg"></i>
@@ -422,49 +423,51 @@
                                     </div>
                                 @endif
                             </div>
-                            @if($web_config['brand_setting'])
-                                <div>
-                                    <h6 class="mb-3">{{translate('Brands')}}</h6>
-                                    <div class="products_aside_brands">
-                                        <ul class="common-nav nav flex-column pe-2">
-                                            @foreach($brands as $brand)
-                                                <li>
-                                                    <div class="flex-between-gap-3 align-items-center">
-                                                        <label class="custom-checkbox">
-                                                            <a href="{{route('shopView',['id'=>$seller_id,'brand_id'=>$brand->id])}}">{{ $brand['name'] }}</a>
-                                                        </label>
-                                                        <span class="badge bg-badge rounded-pill text-dark">
-                                                    {{$brand->count}}
-                                                </span>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+{{--                            @if($web_config['brand_setting'])--}}
+{{--                                <div>--}}
+{{--                                    <h6 class="mb-3">{{translate('Brands')}}</h6>--}}
+{{--                                    <div class="products_aside_brands">--}}
+{{--                                        <ul class="common-nav nav flex-column pe-2">--}}
+{{--                                            @foreach($brands as $brand)--}}
+{{--                                                <li>--}}
+{{--                                                    <div class="flex-between-gap-3 align-items-center">--}}
+{{--                                                        <label class="custom-checkbox">--}}
+{{--                                                            <a href="{{route('shopView',['id'=>$seller_id,'brand_id'=>$brand->id])}}">{{ $brand['name'] }}</a>--}}
+{{--                                                        </label>--}}
+{{--                                                        <span class="badge bg-badge rounded-pill text-dark">--}}
+{{--                                                    {{$brand->count}}--}}
+{{--                                                </span>--}}
+{{--                                                    </div>--}}
+{{--                                                </li>--}}
+{{--                                            @endforeach--}}
+{{--                                        </ul>--}}
+{{--                                    </div>--}}
 
-                                    @if (count($brands) > 10)
-                                        <div class="d-flex justify-content-center">
-                                            <button class="btn-link text-primary btn_products_aside_brands">
-                                                {{translate('more_brands').'...'}}
-                                            </button>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
-                            <div id="ajax-review_partials">
-                                @include('theme-views.partials._products_review_partials', ['ratings'=>$ratings])
-                            </div>
+{{--                                    @if (count($brands) > 10)--}}
+{{--                                        <div class="d-flex justify-content-center">--}}
+{{--                                            <button class="btn-link text-primary btn_products_aside_brands">--}}
+{{--                                                {{translate('more_brands').'...'}}--}}
+{{--                                            </button>--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
+
+{{--                            <div id="ajax-review_partials">--}}
+{{--                                @include('theme-views.partials._products_review_partials', ['ratings'=>$ratings])--}}
+{{--                            </div>--}}
+
                             <div>
                                 <h6 class="mb-3">{{translate('price')}}</h6>
                                 <div class="d-flex align-items-end gap-2">
                                     <div class="form-group">
-                                        <label for="min_price" class="mb-1">{{translate('min')}}</label>
+                                        <label for="min_price" class="mb-1 text-primary">{{translate('min')}}</label>
                                         <input type="number" id="min_price" class="form-control form-control--sm"
                                                placeholder="$0">
                                     </div>
                                     <div class="mb-2">-</div>
                                     <div class="form-group">
-                                        <label for="max_price" class="mb-1">{{translate('max')}}</label>
+                                        <label for="max_price" class="mb-1 text-primary">{{translate('max')}}</label>
                                         <input type="number" id="max_price" class="form-control form-control--sm"
                                                placeholder="{{'$'.translate('1000')}}">
                                     </div>
@@ -498,16 +501,16 @@
                                             <input type="radio" name="product_view" value="grid-view" hidden=""
                                                    {{!session()->has('product_view_style')?'checked':''}}
                                                    {{(session()->get('product_view_style') == 'grid-view'?'checked':'')}} id="grid-view">
-                                            <span class="py-2 d-flex align-items-center gap-2 text-capitalize"><i
-                                                    class="bi bi-grid-fill"></i> {{translate('grid_view')}}</span>
+                                            <span class="py-2 d-flex align-items-center gap-2 text-capitalize text-primary"><i
+                                                    class="bi bi-grid-fill text-primary"></i> {{translate('grid_view')}}</span>
                                         </label>
                                     </li>
                                     <li>
                                         <label>
                                             <input type="radio" name="product_view" value="list-view" hidden=""
                                                    {{(session()->get('product_view_style') == 'list-view'?'checked':'')}} id="list-view">
-                                            <span class="py-2 d-flex align-items-center gap-2 text-capitalize"><i
-                                                    class="bi bi-list-ul"></i> {{translate('list_view')}}</span>
+                                            <span class="py-2 d-flex align-items-center gap-2 text-capitalize text-primary"><i
+                                                    class="bi bi-list-ul text-primary"></i> {{translate('list_view')}}</span>
                                         </label>
                                     </li>
                                 </ul>

@@ -1,7 +1,8 @@
 @php use App\Utils\BrandManager;use App\Utils\CategoryManager; @endphp
 @extends('theme-views.layouts.app')
 
-@section('title',translate(str_replace(['-', '_', '/'],' ',$data['data_from'])).' '.translate('products'))
+{{--@section('title',translate(str_replace(['-', '_', '/'],' ',$data['data_from'])).' '.translate('products'))--}}
+@section('title',translate('collections'))
 
 @push('css_or_js')
     <meta property="og:image" content="{{dynamicStorage(path: 'storage/app/public/company')}}/{{$web_config['web_logo']}}"/>
@@ -19,22 +20,24 @@
     <main class="main-content d-flex flex-column gap-3 pt-3">
         <section>
             <div class="container">
-                <div class="card mb-3">
+                <div class="mb-3">
                     <div class="card-body">
                         <div class="row gy-2 align-items-center">
                             <div class="col-lg-4">
-                                <h3 class="mb-1">{{translate(str_replace(['-', '_', '/'],' ',$data['data_from']))}} {{translate('products')}}</h3>
+{{--                                <h3 class="mb-1">{{translate(str_replace(['-', '_', '/'],' ',$data['data_from']))}} {{translate('products')}}</h3>--}}
+                                <h3 class="mb-1">{{translate('collections')}}</h3>
                                 <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb fs-12 mb-0">
-                                        <li class="breadcrumb-item"><a href="#">{{ translate('home') }}</a></li>
-                                        <li class="breadcrumb-item active"
-                                            aria-current="page">{{translate(str_replace(['-', '_', '/'],' ',$data['data_from']))}} {{translate('products')}} {{ isset($data['brand_name']) ? ' / '.$data['brand_name'] : ''}} {{ request('name') ? '('.request('name').')' : ''}}</li>
+                                    <ol class="breadcrumb fs-12 mb-0 ">
+                                        <li class=""><a href="#">{{ translate('home') }}&nbsp/&nbsp</a></li>
+                                        <li class="breadcrumb-item text-primary active"
+{{--                                            aria-current="page">{{translate(str_replace(['-', '_', '/'],' ',$data['data_from']))}} {{translate('products')}} {{ isset($data['brand_name']) ? ' / '.$data['brand_name'] : ''}} {{ request('name') ? '('.request('name').')' : ''}}</li>--}}
+                                            aria-current="page">{{translate('collections')}} {{ isset($data['brand_name']) ? ' / '.$data['brand_name'] : ''}} {{ request('name') ? '('.request('name').')' : ''}}</li>
                                     </ol>
                                 </nav>
                             </div>
                             <div class="col-lg-8">
                                 <div class="d-flex justify-content-lg-end flex-wrap gap-2">
-                                    <div class="border rounded custom-ps-3 py-2">
+                                    <div class="custom-ps-3 py-2">
                                         <div class="d-flex gap-2">
                                             <div class="flex-middle gap-2">
                                                 <i class="bi bi-sort-up-alt"></i>
@@ -43,7 +46,7 @@
                                             </div>
                                             <div class="dropdown product-view-sort-by">
                                                 <button type="button"
-                                                        class="border-0 bg-transparent dropdown-toggle text-dark p-0 custom-pe-3"
+                                                        class="border-0 bg-transparent dropdown-toggle text-primary p-0 custom-pe-3"
                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                     {{translate('default')}}
                                                 </button>
@@ -79,7 +82,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="border rounded custom-ps-3 py-2">
+                                    <div class="custom-ps-3 py-2">
                                         <div class="d-flex gap-2">
                                             <div class="flex-middle gap-2">
                                                 <i class="bi bi-sort-up-alt"></i>
@@ -88,7 +91,7 @@
                                             </div>
                                             <div class="dropdown">
                                                 <button type="button"
-                                                        class="border-0 bg-transparent dropdown-toggle p-0 custom-pe-3"
+                                                        class="border-0 bg-transparent dropdown-toggle p-0 custom-pe-3 text-primary"
                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                     {{$data['data_from']=="best-selling"||$data['data_from']=="top-rated"||$data['data_from']=="featured_deal"||$data['data_from']=="latest"||$data['data_from']=="most-favorite"?
                                                     str_replace(['-', '_', '/'], ' ', translate($data['data_from'])):translate('Choose_Option')}}
@@ -136,8 +139,8 @@
                     </div>
                 </div>
 
-                <div class="flexible-grid lg-down-1 gap-3 width--16rem">
-                    <div class="card filter-toggle-aside">
+                <div class="flexible-grid lg-down-1 gap-5 width--16rem">
+                    <div class="filter-toggle-aside" style="background: white">
                         <div class="d-flex d-lg-none pb-0 p-3 justify-content-end">
                             <button class="filter-aside-close border-0 bg-transparent">
                                 <i class="bi bi-x-lg"></i>
@@ -145,7 +148,8 @@
                         </div>
                         <div class="card-body d-flex flex-column gap-4">
                             <div>
-                                <h6 class="mb-3">{{translate('Categories')}}</h6>
+{{--                                <h6 class="mb-3">{{translate('Categories')}}</h6>--}}
+
                                 @php($categories=CategoryManager::parents())
                                 <div class="products_aside_categories">
                                     <ul class="common-nav flex-column nav custom-scrollbar flex-nowrap custom_common_nav">
@@ -200,49 +204,53 @@
                                 @endif
                             </div>
 
-                            @if($web_config['brand_setting'])
-                                <div>
-                                    @php($brands = BrandManager::get_active_brands())
-                                    <h6 class="mb-3">{{translate('Brands')}}</h6>
-                                    <div class="products_aside_brands">
-                                        <ul class="common-nav nav flex-column pe-2">
-                                            @foreach($brands as $brand)
-                                                <li>
-                                                    <div class="flex-between-gap-3 align-items-center">
-                                                        <label class="custom-checkbox">
-                                                            <a href="{{route('products',['id'=> $brand['id'],'data_from'=>'brand','page'=>1])}}">{{ $brand['name'] }}</a>
-                                                        </label>
-                                                        <span
-                                                            class="badge bg-badge rounded-pill text-dark">{{ $brand['brand_products_count'] }}</span>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+{{--                            @if($web_config['brand_setting'])--}}
+{{--                                <div>--}}
+{{--                                    @php($brands = BrandManager::get_active_brands())--}}
+{{--                                    <h6 class="mb-3">{{translate('Brands')}}</h6>--}}
+{{--                                    <div class="products_aside_brands">--}}
+{{--                                        <ul class="common-nav nav flex-column pe-2">--}}
+{{--                                            @foreach($brands as $brand)--}}
+{{--                                                <li>--}}
+{{--                                                    <div class="flex-between-gap-3 align-items-center">--}}
+{{--                                                        <label class="custom-checkbox">--}}
+{{--                                                            <a href="{{route('products',['id'=> $brand['id'],'data_from'=>'brand','page'=>1])}}">{{ $brand['name'] }}</a>--}}
+{{--                                                        </label>--}}
+{{--                                                        <span--}}
+{{--                                                            class="badge bg-badge rounded-pill text-dark">{{ $brand['brand_products_count'] }}</span>--}}
+{{--                                                    </div>--}}
+{{--                                                </li>--}}
+{{--                                            @endforeach--}}
+{{--                                        </ul>--}}
+{{--                                    </div>--}}
 
-                                    @if($brands->count() > 10)
-                                        <div class="d-flex justify-content-center">
-                                            <button
-                                                class="btn-link text-primary btn_products_aside_brands text-capitalize">{{translate('more_brands').'...'}}
-                                            </button>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
-                            <div id="ajax-review_partials">
-                                @include('theme-views.partials._products_review_partials', ['ratings'=>$ratings])
-                            </div>
+{{--                                    @if($brands->count() > 10)--}}
+{{--                                        <div class="d-flex justify-content-center">--}}
+{{--                                            <button--}}
+{{--                                                class="btn-link text-primary btn_products_aside_brands text-capitalize">{{translate('more_brands').'...'}}--}}
+{{--                                            </button>--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
+
+{{--                            <div id="ajax-review_partials">--}}
+{{--                                @include('theme-views.partials._products_review_partials', ['ratings'=>$ratings])--}}
+{{--                            </div>--}}
+
                             <div>
-                                <h6 class="mb-3">{{translate('price')}}</h6>
+
+{{--                                <h6 class="mb-3">{{translate('price')}}</h6>--}}
+
                                 <div class="d-flex align-items-end gap-2">
                                     <div class="form-group">
-                                        <label for="min_price" class="mb-1">{{translate('min')}}</label>
+                                        <label for="min_price" class="mb-1 text-primary fs-10">{{translate('minimum_price')}}</label>
                                         <input type="number" id="min_price" class="form-control form-control--sm"
                                                placeholder="{{'$'.translate('0')}}">
                                     </div>
                                     <div class="mb-2">-</div>
                                     <div class="form-group">
-                                        <label for="max_price" class="mb-1">{{translate('max')}}</label>
+                                        <label for="max_price" class="mb-1 text-primary fs-10">{{translate('maximum_price')}}</label>
                                         <input type="number" id="max_price" class="form-control form-control--sm"
                                                placeholder="{{'$'.translate('1000')}}">
                                     </div>
@@ -270,15 +278,15 @@
                                         <label>
                                             <input type="radio" name="product_view" value="grid-view" hidden=""
                                                    {{(session()->get('product_view_style') == 'grid-view'?'checked':'')}} id="grid-view">
-                                            <span class="py-2 d-flex align-items-center gap-2 text-capitalize"><i
-                                                    class="bi bi-grid-fill"></i> {{translate('grid_view')}}</span>
+                                            <span class="py-2 d-flex align-items-center gap-2 text-capitalize text-primary"><i
+                                                    class="bi bi-grid-fill "></i> {{translate('grid_view')}}</span>
                                         </label>
                                     </li>
                                     <li>
                                         <label>
                                             <input type="radio" name="product_view" value="list-view" hidden=""
                                                    {{(session()->get('product_view_style') == 'list-view'?'checked':'')}} id="list-view">
-                                            <span class="py-2 d-flex align-items-center gap-2 text-capitalize"><i
+                                            <span class="py-2 d-flex align-items-center gap-2 text-capitalize text-primary"><i
                                                     class="bi bi-list-ul"></i> {{translate('list_view')}}</span>
                                         </label>
                                     </li>
@@ -289,7 +297,7 @@
                             </div>
                         </div>
                         @php($decimal_point_settings = getWebConfig(name: 'decimal_point_settings'))
-                        <div id="ajax-products-view">
+                        <div id="ajax-products-view" class="ml-5">
                             @include('theme-views.product._ajax-products',['products'=>$products,'decimal_point_settings'=>$decimal_point_settings])
                         </div>
                     </div>

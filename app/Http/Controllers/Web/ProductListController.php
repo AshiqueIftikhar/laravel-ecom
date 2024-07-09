@@ -28,6 +28,7 @@ class ProductListController extends Controller
         return match ($theme_name){
             'default' => self::default_theme($request),
             'theme_aster' => self::theme_aster($request),
+            'theme_prottyashi' => self::theme_prottyashi($request),
             'theme_fashion' => self::theme_fashion($request),
             'theme_all_purpose' => self::theme_all_purpose($request),
         };
@@ -459,6 +460,268 @@ class ProductListController extends Controller
         ]);
     }
 
+    public function theme_prottyashi($request)
+    {
+        $productSortBy = $request->get('sort_by', 'latest');
+        $productListData = Product::active()->with([
+            'reviews', 'rating',
+            'seller.shop',
+            'wishList' => function ($query) {
+                return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
+            },
+            'compareList' => function ($query) {
+                return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
+            }
+        ])->withCount('reviews');
+
+        $getProductIds = [];
+        if ($request['data_from'] == 'category') {
+            $products = $productListData->get();
+            foreach ($products as $product) {
+                foreach (json_decode($product['category_ids'], true) as $category) {
+                    if ($category['id'] == $request['id']) {
+                        $getProductIds[] = $product['id'];
+                    }
+                }
+            }
+            $query = $productListData->whereIn('id', $getProductIds);
+        }
+
+        if ($request->has('search_category_value') && $request['search_category_value'] != 'all') {
+            $products = $productListData->get();
+            $getProductIds = [];
+            foreach ($products as $product) {
+                foreach (json_decode($product['category_ids'], true) as $category) {
+                    if ($category['id'] == $request['search_category_value']) {
+                        $getProductIds[] = $product['id'];
+                    }
+                }
+            }
+            $query = $productListData->whereIn('id', $getProductIds);
+        }
+
+        if ($request['data_from'] == 'brand') {
+            $query = $productListData->where('brand_id', $request['id']);
+        }
+
+        if (!$request->has('data_from') || $request['data_from'] == 'latest') {
+            $query = $productListData;
+        }
+
+        if ($request['data_from'] == 'top-rated') {
+            $reviews = Review::select('product_id', DB::raw('AVG(rating) as count'))
+                ->groupBy('product_id')
+                ->orderBy("count", 'desc')->get();
+            $getProductIds = [];
+            foreach ($reviews as $review) {
+                $getProductIds[] = $review['product_id'];
+            }
+            $query = $productListData->whereIn('id', $getProductIds);
+        }
+
+        if ($request['data_from'] == 'best-selling') {
+            $details = OrderDetail::with('product')
+                ->select('product_id', DB::raw('COUNT(product_id) as count'))
+                ->groupBy('product_id')
+                ->orderBy("count", 'desc')
+                ->get();
+            $getProductIds = [];
+            foreach ($details as $detail) {
+                $getProductIds[] = $detail['product_id'];
+            }
+            $query = $productListData->whereIn('id', $getProductIds);
+        }
+
+        if ($request['data_from'] == 'most-favorite') {
+            $details = Wishlist::with('product')
+                ->select('product_id', DB::raw('COUNT(product_id) as count'))
+                ->groupBy('product_id')
+                ->orderBy("count", 'desc')
+                ->get();
+            $getProductIds = [];
+            foreach ($details as $detail) {
+                $getProductIds[] = $detail['product_id'];
+            }
+            $query = $productListData->whereIn('id', $getProductIds);
+        }
+        if ($request['data_from'] == 'featured') {
+            $query = Product::with([
+                'reviews', 'seller.shop',
+                'wishList' => function ($query) {
+                    return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
+                },
+                'compareList' => function ($query) {
+                    return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
+                }
+            ])->active()->withCount('reviews')->where('featured', 1);
+        }
+
+        if ($request['data_from'] == 'featured_deal') {
+            $featured_deal_id = FlashDeal::where(['status' => 1])->where(['deal_type' => 'feature_deal'])->pluck('id')->first();
+            $featured_deal_product_ids = FlashDealProduct::where('flash_deal_id', $featured_deal_id)->pluck('product_id')->toArray();
+            $query = Product::with([
+                'reviews', 'seller.shop',
+                'wishList' => function ($query) {
+                    return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
+                },
+                'compareList' => function ($query) {
+                    return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
+                }
+            ])->active()->withCount('reviews')->whereIn('id', $featured_deal_product_ids);
+        }
+
+        if ($request['data_from'] == 'search') {
+            $key = explode(' ', $request['name']);
+            $getProductIds = Product::with([
+                'seller.shop',
+                'wishList' => function ($query) {
+                    return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
+                },
+                'compareList' => function ($query) {
+                    return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
+                }
+            ])
+                ->where(function ($q) use ($key) {
+                    foreach ($key as $value) {
+                        $q->orWhere('name', 'like', "%{$value}%")
+                            ->orWhereHas('tags', function ($query) use ($value) {
+                                $query->where('tag', 'like', "%{$value}%");
+                            });
+                    }
+                })->pluck('id');
+
+            if ($getProductIds->count() == 0) {
+                $getProductIds = Translation::where('translationable_type', 'App\Models\Product')
+                    ->where('key', 'name')
+                    ->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->orWhere('value', 'like', "%{$value}%");
+                        }
+                    })
+                    ->pluck('translationable_id');
+            }
+            $query = $productListData->WhereIn('id', $getProductIds);
+        }
+
+        if ($request['data_from'] == 'discounted') {
+            $query = Product::with([
+                'reviews', 'seller.shop',
+                'wishList' => function ($query) {
+                    return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
+                },
+                'compareList' => function ($query) {
+                    return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
+                }
+            ])->active()->withCount('reviews')->where('discount', '!=', 0);
+        }
+
+        if (!$request['data_from'] && !$request['name'] && $request['ratings']) {
+            $query = $query ?? $productListData;
+        }
+
+        if ($request->has('name') && !empty($request['name'])) {
+            $fetched = $query->orderByRaw("CASE WHEN name LIKE '%{$request['name']}%' THEN 1 ELSE 2 END, LOCATE('{$request['name']}', name), name");
+        } else {
+            if ($productSortBy == 'latest') {
+                $fetched = $query->latest();
+            } elseif ($productSortBy == 'low-high') {
+                $fetched = $query->orderBy('unit_price', 'ASC');
+            } elseif ($productSortBy == 'high-low') {
+                $fetched = $query->orderBy('unit_price', 'DESC');
+            } elseif ($productSortBy == 'a-z') {
+                $fetched = $query->orderBy('name', 'ASC');
+            } elseif ($productSortBy == 'z-a') {
+                $fetched = $query->orderBy('name', 'DESC');
+            } else {
+                $fetched = $query->latest();
+            }
+        }
+
+        if ($request['min_price'] != null || $request['max_price'] != null) {
+            $fetched = $fetched->whereBetween('unit_price', [Helpers::convert_currency_to_usd($request['min_price']), Helpers::convert_currency_to_usd($request['max_price'])]);
+        }
+
+        if ($request['ratings'] != null) {
+            $fetched->with('rating')->whereHas('rating', function ($query) use ($request) {
+                return $query;
+            });
+        }
+
+        $data = [
+            'id' => $request['id'],
+            'name' => $request['name'],
+            'data_from' => $request['data_from'],
+            'sort_by' => $request['sort_by'],
+            'page_no' => $request['page'],
+            'min_price' => $request['min_price'],
+            'max_price' => $request['max_price'],
+        ];
+        $common_query = $fetched;
+        $rating_1 = 0;
+        $rating_2 = 0;
+        $rating_3 = 0;
+        $rating_4 = 0;
+        $rating_5 = 0;
+
+        foreach ($common_query->get() as $rating) {
+            if (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] > 0 && $rating->rating[0]['average'] < 2)) {
+                $rating_1 += 1;
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >= 2 && $rating->rating[0]['average'] < 3)) {
+                $rating_2 += 1;
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >= 3 && $rating->rating[0]['average'] < 4)) {
+                $rating_3 += 1;
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >= 4 && $rating->rating[0]['average'] < 5)) {
+                $rating_4 += 1;
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] == 5)) {
+                $rating_5 += 1;
+            }
+        }
+        $ratings = [
+            'rating_1' => $rating_1,
+            'rating_2' => $rating_2,
+            'rating_3' => $rating_3,
+            'rating_4' => $rating_4,
+            'rating_5' => $rating_5,
+        ];
+
+        $products = $common_query->paginate(20)->appends($data);
+
+        if ($request['ratings'] != null) {
+            $products = $products->map(function ($product) use ($request) {
+                $product->rating = $product->rating->pluck('average')[0];
+                return $product;
+            });
+            $products = $products->where('rating', '>=', $request['ratings'])
+                ->where('rating', '<', $request['ratings'] + 1)
+                ->paginate(20)->appends($data);
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'total_product' => $products->total(),
+                'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], ['products' => $products, 'product_ids' => $getProductIds])->render(),
+            ], 200);
+        }
+        if ($request['data_from'] == 'category') {
+            $data['brand_name'] = Category::find((int)$request['id'])->name;
+        }
+        if ($request['data_from'] == 'brand') {
+            $brand_data = Brand::active()->find((int)$request['id']);
+            if ($brand_data) {
+                $data['brand_name'] = $brand_data->name;
+            } else {
+                Toastr::warning(translate('not_found'));
+                return redirect('/');
+            }
+        }
+
+        return view(VIEW_FILE_NAMES['products_view_page'], [
+            'products' => $products,
+            'data' => $data,
+            'ratings' => $ratings,
+            'product_ids' => $getProductIds
+        ]);
+    }
     public function theme_fashion(Request $request)
     {
         $tagCategory = [];

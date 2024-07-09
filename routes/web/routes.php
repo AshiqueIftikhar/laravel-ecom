@@ -59,6 +59,7 @@ Route::group(['namespace' => 'Web','middleware'=>['maintenance_mode','guestCheck
 
 Route::group(['namespace' => 'Web','middleware'=>['maintenance_mode','guestCheck']], function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('shop', 'HomeController@shopindex')->name('shop');
 
     Route::controller(WebController::class)->group(function () {
         Route::get('quick-view', 'getQuickView')->name('quick-view');
@@ -94,6 +95,7 @@ Route::group(['namespace' => 'Web','middleware'=>['maintenance_mode','guestCheck
     Route::get('search-shop', 'WebController@search_shop')->name('search-shop');
 
     Route::get('categories', 'WebController@all_categories')->name('categories');
+    Route::get('collections', 'WebController@categories_prottyashi')->name('categories_prottyashi');
     Route::get('category-ajax/{id}', 'WebController@categories_by_category')->name('category-ajax');
 
     Route::get('brands', 'WebController@all_brands')->name('brands');

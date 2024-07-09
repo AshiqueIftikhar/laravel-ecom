@@ -6,7 +6,7 @@
             <div class="row align-items-center gy-4">
                 <div class="col-lg-5">
                     <div class="pd-img-wrap position-relative h-100">
-                        <div class="swiper-container quickviewSlider2 border rounded aspect-1 border--gray">
+                        <div class="swiper-container quickviewSlider2 aspect-prottyashi border--gray">
                             <div class="product__actions d-flex flex-column gap-2">
                                 <a class="btn-wishlist add-to-wishlist cursor-pointer wishlist-{{$product['id']}} {{($wishlist_status == 1?'wishlist_icon_active':'')}}"
                                    title="{{ translate('add_to_wishlist') }}"
@@ -164,7 +164,7 @@
                         </div>
 
                         <div class="d-flex gap-2 align-items-center mb-2">
-                            <div class="star-rating text-gold fs-12">
+                            <div class="star-rating text-primary fs-16">
                                 @for ($i = 1; $i <= 5; $i++)
                                     @if ($i <= (int)$overallRating[0])
                                         <i class="bi bi-star-fill"></i>
@@ -175,23 +175,49 @@
                                     @endif
                                 @endfor
                             </div>
-                            <span>({{ count($product->reviews) }})</span>
+                            <span>{{ count($product->reviews) }} Reviews</span>
                         </div>
-                        @if(($product['product_type'] == 'physical') && ($product['current_stock']<=0))
-                            <p class="fw-semibold text-muted">{{translate('out_of_stock')}}</p>
-                        @else
-                            @if($product['product_type'] === 'physical')
-                                <p class="fw-semibold text-muted"><span
-                                        class="in_stock_status">{{$product->current_stock}}</span> {{translate('in_Stock')}}
-                                </p>
-                            @endif
-                        @endif
 
                         <div class="product__price d-flex flex-wrap align-items-end gap-2 mb-4 ">
                             <div class="text-primary fs-1-5rem d-flex align-items-end gap-2">
                                 {!! getPriceRangeWithDiscount(product: $product) !!}
                             </div>
                         </div>
+
+                        <div class="tab-pane fade show active" id="product-details" role="tabpanel"
+                             aria-labelledby="product-details-tab" tabindex="0">
+                            <div class="details-content-wrap custom-height ov-hidden show-more--content active">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead class="table-light">
+                                        {{--                                                            <tr>--}}
+                                        {{--                                                                <th class="border-0 text-capitalize">{{translate('details_description')}}</th>--}}
+                                        {{--                                                            </tr>--}}
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                @if($product->video_url != null && (str_contains($product->video_url, "youtube.com/embed/")))
+                                                    <div class="col-12 mb-4 text-center">
+                                                        <iframe width="560" height="315"
+                                                                src="{{$product->video_url}}">
+                                                        </iframe>
+                                                    </div>
+                                                @endif
+                                                <div class="rich-editor-html-content">
+                                                    {!! $product->details !!}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-2">
+                                <a class="see-more-details" style="cursor: pointer" href="{{route('product',$product->slug)}}">{{translate('view_full_details')}}</a>
+                            </div>
+                        </div>
+
                         <form class="cart add-to-cart-form" id="add-to-cart-form" action="{{ route('cart.add') }}"
                               data-redirecturl="{{route('checkout-details')}}"
                               data-varianturl="{{ route('cart.variant_price') }}"
@@ -202,7 +228,7 @@
                                 <input type="hidden" name="id" value="{{ $product->id }}">
                                 @if (count(json_decode($product->colors)) > 0)
                                     <div class="d-flex gap-4 flex-wrap align-items-center mb-3">
-                                        <h6 class="fw-semibold">{{translate('color')}}</h6>
+                                        <h6 class="fw-thin">{{translate('color')}}</h6>
                                         <ul class="option-select-btn custom_01_option flex-wrap weight-style--two gap-2 pt-2">
                                             @foreach (json_decode($product->colors) as $key => $color)
                                                 <li>
@@ -226,7 +252,7 @@
                                 @endif
                                 @foreach (json_decode($product->choice_options) as $choice)
                                     <div class="d-flex gap-4 flex-wrap align-items-center mb-4">
-                                        <h6 class="fw-semibold">{{translate($choice->title)}}</h6>
+                                        <h6 class="fw-thin">{{translate($choice->title)}}</h6>
                                         <ul class="option-select-btn custom_01_option flex-wrap weight-style--two gap-2">
                                             @foreach ($choice->options as $key=>$option)
                                                 <li>
@@ -244,7 +270,7 @@
                                 @endforeach
 
                                 <div class="d-flex gap-4 flex-wrap align-items-center mb-4">
-                                    <h6 class="fw-semibold">{{translate('quantity')}}</h6>
+                                    <h6 class="fw-thin">{{translate('quantity')}}</h6>
 
                                     <div class="quantity quantity--style-two">
                                         <span class="quantity__minus single-quantity-minus">
@@ -259,6 +285,19 @@
                                             <i class="bi bi-plus"></i>
                                         </span>
                                     </div>
+
+                                    <div>
+                                        @if(($product['product_type'] == 'physical') && ($product['current_stock']<=0))
+                                            <p class="fw-thin color-spanish-gray">{{translate('out_of_stock')}}</p>
+                                        @else
+                                            @if($product['product_type'] === 'physical')
+                                                <p class="fw-thin color-spanish-gray"><span
+                                                        class="in_stock_status">{{$product->current_stock}}</span> {{translate('in_Stock')}}
+                                                </p>
+                                            @endif
+                                        @endif
+                                    </div>
+
                                 </div>
                                 <input type="hidden" class="product-generated-variation-code" name="product_variation_code">
                                 <input type="hidden" value="" class="in_cart_key form-control w-50" name="key">
@@ -267,12 +306,12 @@
                                     <div class="flex-between-gap-3">
                                         <div class="">
                                             <h6 class="flex-middle-gap-2 mb-2">
-                                                <span class="text-muted">{{translate('total_price').':'}}</span>
+                                                <span class="text-primary">{{translate('total_price').':'}}</span>
                                                 <span
                                                     class="total_price">{{Helpers::currency_converter($product->unit_price)}}</span>
                                             </h6>
                                             <h6 class="flex-middle-gap-2">
-                                                <span class="text-muted">{{translate('tax').':'}}</span>
+                                                <span class="text-primary">{{translate('tax')}}</span>
                                                 <span
                                                     class="product_vat">{{Helpers::currency_converter($product->tax)}}</span>
                                             </h6>
@@ -282,20 +321,20 @@
                                 <div class="d-flex gap-2 mt-4">
                                     @if(($product->added_by == 'seller' && ($seller_temporary_close || (isset($product->seller->shop) && $product->seller->shop->vacation_status && $currentDate >= $seller_vacation_start_date && $currentDate <= $seller_vacation_end_date))) ||
                                     ($product->added_by == 'admin' && ($inhouse_temporary_close || ($inHouseVacationStatus && $currentDate >= $inhouse_vacation_start_date && $currentDate <= $inhouse_vacation_end_date))))
-                                        <button type="button" class=" btn btn-secondary fs-16"
+                                        <button type="button" class=" btn btn-primary fs-12 text-uppercase"
                                                 disabled>{{translate('buy_now')}}</span></button>
-                                        <button type="button" class=" btn btn-primary fs-16"
+                                        <button type="button" class=" btn btn-primary fs-12 text-uppercase"
                                                 disabled>{{translate('add_to_Cart')}}</button>
                                     @else
                                         @php($guest_checkout=getWebConfig(name: 'guest_checkout'))
                                         <button type="button"
-                                                class="btn btn-secondary fs-16 buy-now"
+                                                class="btn btn-primary fs-12 buy-now text-uppercase"
                                                 data-form-id="add-to-cart-form"
                                                 data-redirect-status="{{($guest_checkout==1 || Auth::guard('customer')->check()?'true':'false')}}"
                                                 data-action="{{route('shop-cart')}}">{{translate('buy_now')}}</span>
                                         </button>
                                         <button type="button"
-                                                class="btn btn-primary fs-16 text-capitalize add-to-cart"
+                                                class="btn btn-primary fs-12 add-to-cart text-uppercase"
                                                 data-form-id="add-to-cart-form" data-update-text="{{ translate('update_cart') }}"
                                                 data-add-text="{{ translate('add_to_cart') }}">{{translate('add_to_cart')}}</button>
                                     @endif

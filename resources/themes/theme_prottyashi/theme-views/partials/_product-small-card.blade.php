@@ -1,8 +1,9 @@
 @php use App\Utils\Helpers;use App\Utils\ProductManager;use Illuminate\Support\Str; @endphp
 @php($overallRating = getOverallRating($product->reviews))
-<div class="product border rounded text-center d-flex flex-column gap-10 get-view-by-onclick"
+<div class="product text-center d-flex flex-column gap-10 get-view-by-onclick"
      data-link="{{route('product',$product->slug)}}">
-    <div class="product__top width--100 height-12-5-rem aspect-1">
+{{--    <div class="product__top width--100 height-12-5-rem aspect-1">--}}
+    <div class="product__top width--100 aspect-prottyashi">
         @if($product->discount > 0)
             <span class="product__discount-badge">
                 <span>
@@ -44,38 +45,36 @@
                  alt="{{ $product['name'] }}">
         </div>
     </div>
-    <div class="product__summary d-flex flex-column align-items-center gap-1 pb-3">
-        <div class="d-flex gap-2 align-items-center">
-            <span class="star-rating text-gold fs-12">
-                @for ($index = 1; $index <= 5; $index++)
-                    @if ($index <= (int)$overallRating[0])
-                        <i class="bi bi-star-fill"></i>
-                    @elseif ($overallRating[0] != 0 && $index <= (int)$overallRating[0] + 1.1 && $overallRating[0] == ((int)$overallRating[0]+.50))
-                        <i class="bi bi-star-half"></i>
-                    @else
-                        <i class="bi bi-star"></i>
-                    @endif
-                @endfor
-            </span>
-            <span>({{ count($product->reviews) }})</span>
-        </div>
-
-        <div class="text-muted fs-12">
+    <div class="product__summary d-flex flex-column align-items-center gap-3 pb-3">
+        <div class="fs-10 color-spanish-gray opacity-50 w-100 d-flex justify-content-start" style="margin-top: -5px">
             @if($product->added_by=='seller')
                 {{ isset($product->seller->shop->name) ? Str::limit($product->seller->shop->name, 20) : '' }}
             @elseif($product->added_by=='admin')
                 {{$web_config['name']->value}}
             @endif
         </div>
-
         <h6 class="product__title text-truncate width--80">
-            <a href="{{route('product',$product->slug)}}"
-               class="text-capitalize">{{ Str::limit($product['name'], 23) }}</a>
+            <a href="{{route('product',$product->slug)}}" title="{{$product['name']}}"
+               class="text-capitalize">{{ Str::limit($product['name'], 35) }}</a>
         </h6>
+        <div class="d-flex gap-2 align-items-center">
+            <span class="star-rating text-gold fs-16">
+                @for ($index = 1; $index <= 5; $index++)
+                    @if ($index <= (int)$overallRating[0])
+                        <i style="color: var(--bs-primary)" class="bi bi-star-fill"></i>
+                    @elseif ($overallRating[0] != 0 && $index <= (int)$overallRating[0] + 1.1 && $overallRating[0] == ((int)$overallRating[0]+.50))
+                        <i style="color: var(--bs-primary)" class="bi bi-star-half"></i>
+                    @else
+                        <i style="color: var(--bs-primary)" class="bi bi-star"></i>
+                    @endif
+                @endfor
+            </span>
+            <span>({{ count($product->reviews) }})</span>
+        </div>
         <a href="{{route('product',$product->slug)}}">
             <div class="product__price d-flex flex-wrap column-gap-2">
                 @if($product->discount > 0)
-                    <del class="product__old-price">{{Helpers::currency_converter($product->unit_price)}}</del>
+                    <del style="color: var(--bs-primary)" class="product__old-price">{{Helpers::currency_converter($product->unit_price)}}</del>
                 @endif
                 <ins class="product__new-price">
                     {{Helpers::currency_converter(

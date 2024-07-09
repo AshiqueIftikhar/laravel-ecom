@@ -146,6 +146,7 @@ use App\Http\Controllers\Admin\ProductReportController;
 use App\Http\Controllers\Admin\OrderReportController;
 use App\Http\Controllers\Admin\ProductWishlistReportController;
 use App\Http\Controllers\Admin\Settings\InvoiceSettingsController;
+use App\Http\Controllers\Admin\SellingPoint\SellingPointController;
 use App\Enums\ViewPaths\Admin\InvoiceSettings;
 
 
@@ -429,6 +430,41 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
+    Route::group(['prefix' => 'selling-points', 'as' => 'selling-points.','middleware'=>['module:user_section']], function () {
+        Route::controller(SellingPointController::class)->group(function (){
+            Route::get('list', 'index')->name('points-list');
+            Route::get('add', 'getAddView')->name('add');
+            Route::POST('add', 'add');
+            Route::get(Vendor::ORDER_LIST[URI].'/{vendor_id}', 'getOrderListView')->name('order-list');
+            Route::get(Vendor::ORDER_LIST_EXPORT[URI].'/{vendor_id}', 'exportOrderList')->name('order-list-export');
+            Route::post(Vendor::STATUS[URI], 'updateStatus')->name('updateStatus');
+            Route::get(Vendor::EXPORT[URI], 'exportList')->name('export');
+            Route::get(Vendor::PRODUCT_LIST[URI].'/{vendor_id}', 'getProductListView')->name('product-list');
+
+            Route::post(Vendor::SALES_COMMISSION_UPDATE[URI].'/{id}', 'updateSalesCommission')->name('sales-commission-update');
+            Route::get(Vendor::ORDER_DETAILS[URI].'/{order_id}/{vendor_id}', 'getOrderDetailsView')->name('order-details');
+            Route::get(Vendor::VIEW[URI].'/{id}/{tab?}', 'getView')->name('view');
+            Route::post(Vendor::UPDATE_SETTING[URI].'/{id}', 'updateSetting')->name('update-setting');
+
+            Route::get(Vendor::WITHDRAW_LIST[URI], 'getWithdrawListView')->name('withdraw_list');
+            Route::get(Vendor::WITHDRAW_LIST_EXPORT[URI], 'exportWithdrawList')->name('withdraw-list-export-excel');
+            Route::get(Vendor::WITHDRAW_VIEW[URI].'/{withdrawId}/{vendorId}', 'getWithdrawView')->name('withdraw_view');
+            Route::post(Vendor::WITHDRAW_STATUS[URI].'/{id}', 'withdrawStatus')->name('withdraw_status');
+        });
+
+        Route::group(['prefix' => 'withdraw-method', 'as' => 'withdraw-method.'], function () {
+            Route::controller(WithdrawalMethodController::class)->group(function (){
+                Route::get(WithdrawalMethod::LIST[URI], 'index')->name('list');
+                Route::get(WithdrawalMethod::ADD[URI], 'getAddView')->name('add');
+                Route::post(WithdrawalMethod::ADD[URI], 'add');
+                Route::delete(WithdrawalMethod::DELETE[URI].'/{id}', 'delete')->name('delete');
+                Route::post(WithdrawalMethod::DEFAULT_STATUS[URI], 'updateDefaultStatus')->name('default-status');
+                Route::post(WithdrawalMethod::STATUS[URI], 'updateStatus')->name('status-update');
+                Route::get(WithdrawalMethod::UPDATE[URI].'/{id}', 'getUpdateView')->name('edit');
+                Route::post(WithdrawalMethod::UPDATE[URI], 'update')->name('update');
+            });
+        });
+    });
     Route::group(['prefix' => 'employee', 'as' => 'employee.'], function () {
         Route::controller(EmployeeController::class)->group(function (){
             Route::get(Employee::LIST[URI], 'index')->name('list');

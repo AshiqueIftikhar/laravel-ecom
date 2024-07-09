@@ -11,7 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="_token" content="{{csrf_token()}}">
     <link rel="shortcut icon" href="{{dynamicStorage(path: 'storage/app/public/company')}}/{{$web_config['fav_icon']->value}}"/>
-    <link rel="stylesheet" href="{{ theme_asset('assets/css/fonts-init.css') }}"/>
+{{--    <link rel="stylesheet" href="{{ theme_asset('assets/css/fonts-init.css') }}"/>--}}
+    <link rel="stylesheet" href="{{ theme_asset('assets/css/fonts-init-prottyashi.css') }}"/>
     <link rel="stylesheet" href="{{ theme_asset('assets/css/bootstrap.min.css') }}"/>
     <link rel="stylesheet" href="{{ theme_asset('assets/css/bootstrap-icons.min.css') }}"/>
     <link rel="stylesheet" href="{{ theme_asset('assets/plugins/magnific-popup-1.1.0/magnific-popup.css') }}" />
@@ -32,8 +33,36 @@
             --primary-light: {{ $web_config['primary_color_light'] }};
             --bs-secondary: {{ $web_config['secondary_color'] }};
             --bs-secondary-rgb: {{ hex_to_rgb($web_config['secondary_color']) }};
+            --text-color-dark: #534e4e;
+        }
+        html{
+            accent-color: var(--bs-primary);
+        }
+        body{
+            color: var(--bs-primary)
         }
 
+        h1,
+        .h1,
+        h2,
+        .h2,
+        h3,
+        .h3,
+        h4,
+        .h4,
+        h5,
+        .h5,
+        h6,
+        .h6 {
+            margin: 0;
+            font-weight: var(--thin);
+            line-height: var(--title-line-height);
+            font-family: var(--title-font);
+            color: var(--bs-primary)
+        }
+        .aspect-prottyashi{
+            aspect-ratio: 2/3 !important;
+        }
         .announcement-color {
             background-color: {{ $web_config['announcement']['color'] }};
             color: {{$web_config['announcement']['text_color']}};
@@ -121,7 +150,7 @@
 @include('theme-views.layouts.partials._header')
 @include('theme-views.layouts.partials._settings-sidebar')
 @yield('content')
-@include('theme-views.layouts.partials._feature')
+{{--@include('theme-views.layouts.partials._feature')--}}
 @include('theme-views.layouts.partials._footer')
 <a href="#" class="back-to-top">
     <i class="bi bi-arrow-up"></i>

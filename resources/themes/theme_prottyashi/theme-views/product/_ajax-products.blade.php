@@ -1,5 +1,6 @@
 @if (count($products) > 0)
-    <div class="auto-col gap-3 mobile_two_items minWidth-12rem {{(session()->get('product_view_style') == 'list-view'?'product-list-view':'')}}" id="filtered-products" style="{{(count($products) > 4?'--maxWidth:1fr':'--maxWidth:14rem')}}">
+{{--    <div class="auto-col gap-3 mobile_two_items minWidth-12rem {{(session()->get('product_view_style') == 'list-view'?'product-list-view':'')}}" id="filtered-products" style="{{(count($products) > 4?'--maxWidth:1fr':'--maxWidth:14rem')}}">--}}
+    <div class="auto-col gap-5 mobile_two_items minWidth-12 {{(session()->get('product_view_style') == 'list-view'?'product-list-view':'')}}" id="filtered-products" style="{{(count($products) > 1? 'max-width:90%':'max-width:50%')}}">
         @foreach($products as $product)
             @include('theme-views.partials._product-small-card', ['product'=>$product])
         @endforeach

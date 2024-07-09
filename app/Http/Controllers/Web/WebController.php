@@ -133,6 +133,12 @@ class WebController extends Controller
         return view('web-views.products.categories', compact('categories'));
     }
 
+    public function categories_prottyashi()
+    {
+        $categories = Category::all();
+        return view('theme-views.product.categories', compact('categories'));
+    }
+
     public function categories_by_category($id)
     {
         $category = Category::with(['childes.childes'])->where('id', $id)->first();

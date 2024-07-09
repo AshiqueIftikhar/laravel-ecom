@@ -44,29 +44,29 @@
                 <ul class="list-unstyled profile-menu gap-1 mt-3">
                     <li class="{{Request::is('user-profile') || Request::is('user-account') ||Request::is('account-address-*') ? 'active' :''}}">
                         <a href="{{ route('user-profile') }}">
-                            <img width="20" src="{{ theme_asset('assets/img/icons/profile-icon.png') }}"
-                                 class="dark-support" alt="">
+{{--                            <img width="20" src="{{ theme_asset('assets/img/icons/profile-icon.png') }}"--}}
+{{--                                 class="dark-support" alt="">--}}
                             <span class="text-capitalize">{{translate('my_profile')}}</span>
                         </a>
                     </li>
                     <li class="{{Request::is('account-oder*') || Request::is('account-order-details*') || Request::is('refund-details*') || Request::is('track-order/order-wise-result-view') ? 'active' :''}}">
                         <a href="{{route('account-oder')}}">
-                            <img width="20" src="{{ theme_asset('assets/img/icons/profile-icon2.png') }}"
-                                 class="dark-support" alt="">
+{{--                            <img width="20" src="{{ theme_asset('assets/img/icons/profile-icon2.png') }}"--}}
+{{--                                 class="dark-support" alt="">--}}
                             <span>{{translate('Orders')}}</span>
                         </a>
                     </li>
                     <li class="{{Request::is('wishlists') ? 'active' :''}}">
                         <a href="{{route('wishlists')}}">
-                            <img width="20" src="{{theme_asset('assets/img/icons/profile-icon3.png')}}"
-                                 class="dark-support" alt="">
+{{--                            <img width="20" src="{{theme_asset('assets/img/icons/profile-icon3.png')}}"--}}
+{{--                                 class="dark-support" alt="">--}}
                             <span>{{translate('Wish_List')}}</span>
                         </a>
                     </li>
                     <li class="{{Request::is('product-compare/index') ? 'active' :''}}">
                         <a href="{{route('product-compare.index')}}">
-                            <img width="20" src="{{theme_asset('assets/img/icons/profile-icon4.png')}}"
-                                 class="dark-support" alt="">
+{{--                            <img width="20" src="{{theme_asset('assets/img/icons/profile-icon4.png')}}"--}}
+{{--                                 class="dark-support" alt="">--}}
                             <span>{{translate('Compare_List')}}</span>
                         </a>
                     </li>
@@ -74,8 +74,8 @@
                     @if ($web_config['wallet_status'] == 1)
                         <li class="{{Request::is('wallet') ? 'active' :''}}">
                             <a href="{{route('wallet')}}">
-                                <img width="20" src="{{theme_asset('assets/img/icons/profile-icon5.png')}}"
-                                     class="dark-support" alt="">
+{{--                                <img width="20" src="{{theme_asset('assets/img/icons/profile-icon5.png')}}"--}}
+{{--                                     class="dark-support" alt="">--}}
                                 <span>{{translate('wallet')}}</span>
                             </a>
                         </li>
@@ -83,39 +83,39 @@
                     @if ($web_config['loyalty_point_status'] == 1)
                         <li class="{{Request::is ('loyalty') ? 'active' : ''}}">
                             <a href="{{route('loyalty')}}">
-                                <img width="20" src="{{theme_asset('assets/img/icons/profile-icon6.png')}}"
-                                     class="dark-support" alt="">
+{{--                                <img width="20" src="{{theme_asset('assets/img/icons/profile-icon6.png')}}"--}}
+{{--                                     class="dark-support" alt="">--}}
                                 <span class="text-capitalize">{{translate('loyalty_point')}}</span>
                             </a>
                         </li>
                     @endif
                     <li class="{{Request::is ('chat/vendor') || Request::is ('chat/delivery-man') ? 'active' : ''}}">
                         <a href="{{route('chat', ['type' => 'vendor'])}}">
-                            <img width="20" src="{{theme_asset('assets/img/icons/profile-icon7.png')}}"
-                                 class="dark-support" alt="">
+{{--                            <img width="20" src="{{theme_asset('assets/img/icons/profile-icon7.png')}}"--}}
+{{--                                 class="dark-support" alt="">--}}
                             <span>{{translate('inbox')}}</span>
                         </a>
                     </li>
                     <li class="{{Request::is ('account-tickets') || Request::is('support-ticket*') ? 'active' : ''}}">
                         <a href="{{route('account-tickets')}}">
-                            <img width="20" src="{{theme_asset('assets/img/icons/profile-icon8.png')}}"
-                                 class="dark-support" alt="">
+{{--                            <img width="20" src="{{theme_asset('assets/img/icons/profile-icon8.png')}}"--}}
+{{--                                 class="dark-support" alt="">--}}
                             <span class="text-capitalize">{{translate('support_ticket')}}</span>
                         </a>
                     </li>
                     @if ($web_config['ref_earning_status'])
                         <li class="{{Request::is ('refer-earn') || Request::is('refer-earn*') ? 'active' : ''}}">
                             <a href="{{ route('refer-earn') }}">
-                                <img width="20" src="{{theme_asset('assets/img/icons/refer-and-earn.svg')}}"
-                                     class="dark-support" alt="">
+{{--                                <img width="20" src="{{theme_asset('assets/img/icons/refer-and-earn.svg')}}"--}}
+{{--                                     class="dark-support" alt="">--}}
                                 <span>{{translate('refer_&_earn')}}</span>
                             </a>
                         </li>
                     @endif
                     <li class="{{Request::is ('user-coupons') || Request::is('user-coupons*') ? 'active' : ''}}">
                         <a href="{{route('user-coupons')}}">
-                            <img width="20" src="{{theme_asset('assets/img/icons/coupon.svg')}}" class="dark-support"
-                                 alt="">
+{{--                            <img width="20" src="{{theme_asset('assets/img/icons/coupon.svg')}}" class="dark-support"--}}
+{{--                                 alt="">--}}
                             <span>{{translate('coupons')}}</span>
                         </a>
                     </li>

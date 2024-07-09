@@ -77,6 +77,7 @@ class VendorController extends BaseController
         $current_date = date('Y-m-d');
         $vendors = $this->vendorRepo->getListWhere(
             orderBy:['id'=>'desc'],
+            filters: ['isSellingPoint'=> '0'],
             searchValue: $request['searchValue'],
             relations: ['orders', 'product'],
             dataLimit:getWebConfig(name: WebConfigKey::PAGINATION_LIMIT)

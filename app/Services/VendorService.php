@@ -117,6 +117,7 @@ class VendorService
             'image' => $this->upload(dir: 'seller/', format: 'webp', image: $request->file('image')),
             'password' => bcrypt($request['password']),
             'status' => $request['status'] == 'approved' ? 'approved' : 'pending',
+            'isSellingPoint'=>$request['is_selling_point'],
         ];
     }
 }
